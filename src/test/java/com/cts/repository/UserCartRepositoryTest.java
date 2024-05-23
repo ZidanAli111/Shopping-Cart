@@ -8,30 +8,24 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.app.model.UserCartDetails;
 import com.app.repository.UserCartRepository;
-import com.app.service.UserCartService;
- 
+import com.app.serviceImpl.UserCartServiceImpl;
+
 @ExtendWith(MockitoExtension.class)
 public class UserCartRepositoryTest {
- 
-    @Mock
-    private UserCartRepository userCartRepositoryMock;
- 
-    @InjectMocks
-    private UserCartService userCartService;
- 
-    @Test
-    public void testFindByUserIdAndSku_UserCartExists() {
-        // Arrange
-        int userId = 1;
-        String sku = "testSKU";
-        UserCartDetails userCart = new UserCartDetails();
-       
-        userCart.setSku(sku);
-//        when(userCartRepositoryMock.findByUserIdAndSku(userId, sku)).thenReturn(userCart);
-// s  // Act
-//        UserCartDetails result = userCartService.findUserCartByUserIdAndSku(userId, sku);
-// 
-//        // Assert
-//        assertEquals(null, result);
-    }
+
+	@Mock
+	private UserCartRepository userCartRepositoryMock;
+
+	@InjectMocks
+	private UserCartServiceImpl userCartServiceimpl;
+
+	@Test
+	public void testFindByUserIdAndSku_UserCartExists() {
+		// Arrange
+		@SuppressWarnings("unused")
+		int userId = 1;
+		String sku = "testSKU";
+		UserCartDetails userCart = new UserCartDetails();
+		userCart.setSku(sku);
+	}
 }
