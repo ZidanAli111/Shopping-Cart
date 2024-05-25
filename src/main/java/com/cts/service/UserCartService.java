@@ -12,7 +12,7 @@ public interface UserCartService {
 	
 	ResponseEntity<List<UserCartDetails>> getAllUserCartItems();
 	
-	// ResponseEntity<List<UserCartDetails>> getUserCartItems(int userId);
+	 ResponseEntity<List<UserCartDetails>> getUserCartItems(int userId);
 
 	
 	void modifyItemQuantity(int userId,String sku,UserCartDetails updatedUserCartDetails);

@@ -3,6 +3,7 @@ package com.cts.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import com.cts.exception.LoginException;
 import com.cts.model.UserDetails;
 import com.cts.service.UserLoginService;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/login")
 public class UserLoginController {
@@ -22,8 +24,8 @@ public class UserLoginController {
 	UserLoginService loginService;
 
 	@PostMapping
-	public ResponseEntity<String> login(@RequestBody UserLoginDTO userLoginDTO) {
-
+	public ResponseEntity<UserLoginDTO> login(@RequestBody UserLoginDTO userLoginDTO) {
+		int userId = userLoginDTO.getUserId();
 		String username = userLoginDTO.getUsername();
 		String password = userLoginDTO.getPassword();
 
@@ -35,14 +37,14 @@ public class UserLoginController {
 
 			boolean isAuthenticated = loginService.authenticateUser(username, password);
 			if (isAuthenticated) {
-				return ResponseEntity.ok("Login Successfull!");
+				return ResponseEntity.ok(userLoginDTO);
 			} else {
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(userLoginDTO);
 
 			}
 
 		} catch (LoginException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(userLoginDTO);
 		}
 	}
 

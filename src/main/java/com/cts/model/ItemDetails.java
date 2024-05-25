@@ -13,14 +13,15 @@ import lombok.NoArgsConstructor;
 @Table(name="item")
 public class ItemDetails {
 
-	
-	@Column(name="SKU")
-	private String sku;
-	
+
 	@Id
 	@Column(name="item_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	@Column(name="SKU")
+	private String sku;
+	
 	
 	@Column(name="Item_Decription")
 	private String itemDescription;

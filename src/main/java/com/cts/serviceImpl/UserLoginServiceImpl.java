@@ -15,13 +15,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 	@Autowired
 	private UserRepository userRepository;
 
-//	@Override
-//	public boolean authenticateUser(String username, String password) {
-//		Optional<UserDetails> userOptional = Optional.ofNullable(userRepository.findByUsername(username)
-//				.orElseThrow(()->new RuntimeException("Username not found!!")));
-//
-//		return userOptional.isPresent() && userOptional.get().getPassword().equals(password);
-//	}
+
 	
 	
 	@Override

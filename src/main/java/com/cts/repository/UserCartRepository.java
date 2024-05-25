@@ -12,7 +12,7 @@ import com.cts.model.UserDetails;
 @Repository
 public interface UserCartRepository extends JpaRepository<UserCartDetails, Integer> {
 
-//	List<UserCartDetails> findByUserId(int userId);
+	  List<UserCartDetails> findByUserDetailsUserId(int userId);
 
 	Optional<UserCartDetails> findByUserDetailsAndSku(UserDetails userDetails, String sku);
 

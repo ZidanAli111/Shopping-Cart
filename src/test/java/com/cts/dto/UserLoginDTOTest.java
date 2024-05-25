@@ -11,11 +11,12 @@ public class UserLoginDTOTest {
     @Test
     public void testConstructorAndGetters() {
         // Arrange
+    	int userId=1;
         String username = "zidan@gmail.com";
         String password = "zid1234@";
  
         // Act
-        UserLoginDTO userLoginDTO = new UserLoginDTO(username, password);
+        UserLoginDTO userLoginDTO = new UserLoginDTO(userId,username, password);
  
         // Assert
         assertNotNull(userLoginDTO);

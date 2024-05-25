@@ -35,6 +35,7 @@ public class UserDetails {
 	@Column(name = "password")
 	private String password;
 
+
 	public int getUserId() {
 		return userId;
 	}

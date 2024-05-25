@@ -95,15 +95,14 @@ public class UserCartServiceImpl implements UserCartService {
 	}
 	
 	
-//	@Override
-//	public ResponseEntity<List<UserCartDetails>> getUserCartItems(int userId) {
-//		try {
-////			List<UserCartDetails> userCartItems = userCartRepository.findByUserId(userId);
-//			return ResponseEntity.ok(userCartItems);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
-//		}
-//	}
-
+	 @Override
+	    public ResponseEntity<List<UserCartDetails>> getUserCartItems(int userId) {
+	        try {
+	            List<UserCartDetails> userCartItems = userCartRepository.findByUserDetailsUserId(userId);
+	            return ResponseEntity.ok(userCartItems);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
+	        }
+	    }
 }

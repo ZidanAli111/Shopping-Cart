@@ -2,20 +2,31 @@ package com.cts.dto;
 
 
 public class UserLoginDTO {
+	private String username;
+	
+	private String password;
+
+	private int userId;
+	
 	
 	public UserLoginDTO() {
 	}
 
-	public UserLoginDTO(String username, String password) {
+	public UserLoginDTO(int userId, String username, String password) {
 		
+		this.userId=userId;
 		this.username = username;
 		this.password = password;
 	}
 	
 	
-	private String username;
-	
-	private String password;
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 
 	public String getUsername() {
