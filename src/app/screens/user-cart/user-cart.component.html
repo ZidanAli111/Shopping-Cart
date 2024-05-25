@@ -1,0 +1,43 @@
+<div class="container mt-5">
+  <h2>User Cart</h2>
+  <div *ngIf="userCart && userCart.length > 0; else emptyCart">
+    <div class="row">
+      <div class="col-md-12">
+        <div *ngFor="let item of userCart" class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="assets/item-placeholder.png" class="img-fluid rounded-start" alt="Product Image">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ item.itemDescription }}</h5>
+                <p class="card-text"><strong>SKU:</strong> {{ item.sku }}</p>
+                <p class="card-text"><strong>Cost:</strong> {{ item.itemCost}}</p>
+                <div class="d-flex align-items-center">
+                  <input type="number" [(ngModel)]="item.itemQuantity" class="form-control me-2" style="width: 70px;">
+                  <button class="btn btn-secondary btn-sm me-2" (click)="modifyQuantity(item)">Update</button>
+                  <button class="btn btn-danger btn-sm" (click)="removeFromCart(item)">Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <h5 class="card-title">Total Cost: {{ getTotalCost() }}</h5>
+            <button class="btn btn-primary" (click)="checkout()">Proceed to Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #emptyCart>
+    <div class="alert alert-warning">
+      Your cart is empty.
+    </div>
+  </ng-template>
+</div>

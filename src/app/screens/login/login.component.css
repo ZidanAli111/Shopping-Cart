@@ -1,0 +1,17 @@
+
+.login-container {
+    margin: 10px;
+}
+
+.email-container {
+    text-align: start;
+}
+
+.password-container {
+    text-align: start;
+}
+
+.gradient-custom{
+    background: rgba(1, 15, 88, 0.5);
+}
+

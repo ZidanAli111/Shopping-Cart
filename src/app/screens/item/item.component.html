@@ -1,0 +1,42 @@
+<div class="parent-container">
+  <div class="username-parent-container">
+    <div class="row">
+      <div class="username-container">
+        <p id="username">Hi {{username}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-btb-container ">
+    <h2 class="mt-5 item-list">Item List</h2>
+    <button class=" cart-btn btn btn-outline-primary" (click)="displayCartItem()">CART
+    </button>
+   
+  </div>
+
+
+  <div class="items-container">
+    
+    <div class="item-container row">
+      <div class="col-md-4 mb-4" *ngFor="let item of items">
+        <div class="card">
+          
+          <div class="card-body">
+            
+            <h5 class="card-title">SKU: {{ item.sku }}</h5>
+            <p class="card-text"><strong>Description:</strong> {{ item.itemDescription }}</p>
+            <p class="card-text"><strong>Quantity:</strong> {{ item.itemQuantity }}</p>
+            <p class="card-text"><strong>Cost:</strong> {{ item.itemCost }}</p>
+            <p class="card-text"><strong>Manufacturer Number:</strong> {{ item.mfrNo }}</p>
+            <p class="card-text"><strong>Vendor Number:</strong> {{ item.vendorNo }}</p>
+      
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-secondary" (click)="increaseQuantity(item)">Quantity</button>
+              <button class="btn btn-primary" (click)="addToCart(item)">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
