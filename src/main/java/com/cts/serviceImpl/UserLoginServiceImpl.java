@@ -19,13 +19,13 @@ public class UserLoginServiceImpl implements UserLoginService {
 	
 	
 	@Override
-	public boolean authenticateUser(String username, String password) {
+	public UserDetails authenticateUser(String username, String password) {
 		Optional<UserDetails> userOptional = Optional.ofNullable(userRepository.findByUsername(username)
 				.orElseThrow(() -> new RuntimeException("Username not found!!")));
 		if (userOptional.isPresent()) {
 			UserDetails user = userOptional.get();
 			if (user.getPassword().equals(password)) {
-				return true;
+				return user;
 			} else {
 				throw new RuntimeException("Invalid username or password");
 			}

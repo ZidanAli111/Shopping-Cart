@@ -24,28 +24,22 @@ public class UserLoginController {
 	UserLoginService loginService;
 
 	@PostMapping
-	public ResponseEntity<UserLoginDTO> login(@RequestBody UserLoginDTO userLoginDTO) {
-		int userId = userLoginDTO.getUserId();
+	public ResponseEntity<UserDetails> login(@RequestBody UserLoginDTO userLoginDTO) throws LoginException {
 		String username = userLoginDTO.getUsername();
 		String password = userLoginDTO.getPassword();
 
-		try {
 
 			if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
 				throw new LoginException("Invalid username or Password");
 			}
 
-			boolean isAuthenticated = loginService.authenticateUser(username, password);
-			if (isAuthenticated) {
-				return ResponseEntity.ok(userLoginDTO);
+			UserDetails userDetails = loginService.authenticateUser(username, password);
+			if (userDetails!=null) {
+				return ResponseEntity.ok(userDetails);
 			} else {
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(userLoginDTO);
-
+				throw new LoginException("UNAUTORIZED");
 			}
 
-		} catch (LoginException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(userLoginDTO);
-		}
 	}
 
 	@GetMapping("{userId}")
