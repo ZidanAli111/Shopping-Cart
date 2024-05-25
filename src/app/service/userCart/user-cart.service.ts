@@ -8,11 +8,13 @@ import { UserCart } from 'src/app/model/userCart/user-cart';
 })
 export class UserCartService {
 
-  private viewCartUrl = "http://localhost:9081/api/usercart/retrieveusercart";
+  private viewCartUrl = "http://localhost:9081/api/usercart/retrieveusercart/";
 
   constructor(private httpClient: HttpClient) { }
 
-  getItemList(): Observable<UserCart[]> {
-    return this.httpClient.get<UserCart[]>(this.viewCartUrl);
+  getItemList(userId: number): Observable<UserCart[]> {
+    const finalUrl = this.viewCartUrl + userId;
+    return this.httpClient.get<UserCart[]>(finalUrl);
   }
+ 
 }

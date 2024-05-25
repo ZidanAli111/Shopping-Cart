@@ -17,7 +17,6 @@ export class ItemComponent implements OnInit {
 
   constructor(
     private itemService: ItemService,
-    private userLoginService: UserLoginService,
     private router: Router
   ) { }
 
