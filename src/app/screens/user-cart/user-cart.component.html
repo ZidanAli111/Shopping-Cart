@@ -1,31 +1,41 @@
-<div class="username-parent-container">
-  <div class="row">
-    <div class="username-container">
-      <p id="username">Hi {{username}}</p>
+<div class="parent-container">
+  <div class="username-parent-container">
+    <div class="row">
+      <div class="username-container">
+        <p class="username" id="username">Hi, {{ username }}</p>
+        <div class="col text-end">
+          <!-- Logout button component -->
+          <app-logout-button class="logout-btn"></app-logout-button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="container mt-5">
+  <div class="cart-container">
+    <h2 class="item-list">User Cart</h2>
+  </div>
 
-  <h2>User Cart</h2>
-  <div *ngIf="userCart && userCart.length > 0; else emptyCart">
-    <div class="row">
-      <div class="col-md-12">
-        <div *ngFor="let item of userCart" class="card mb-3">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img [src]="'assets/images/' + item.sku + '.jpg'" class="card-img img-fluid" alt="Product Image">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">{{ item.itemDescription }}</h5>
-                <p class="card-text"><strong>SKU:</strong> {{ item.sku }}</p>
-                <p class="card-text"><strong>Cost:</strong> {{ item.itemCost}}</p>
-                <div class="d-flex align-items-center">
-                  <input type="number" [(ngModel)]="item.itemQuantity" class="form-control me-2" style="width: 70px;">
+
+  <!-- Items List in card -->
+  <div class="items-parent-container">
+    <div class="item-container row">
+      <div *ngIf="userCart && userCart.length > 0; else emptyCart">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let item of userCart">
+          <div class="card card-container h-100">
+            <div class="row g-0 h-100">
+              <div class="col-4 col-md-4 item-img-container">
+                <img [src]="'assets/images/' + item.sku + '.jpg'" class="card-img img-fluid" alt="Product Image">
+              </div>
+              <div class="col-8 col-md-8 d-flex flex-column">
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-text">SKU: {{ item.sku }}</h5>
+                  <p class="card-text"><strong>Description:</strong> {{ item.itemDescription }}</p>
+                  <p class="card-text"><strong>Quantity:</strong> {{ item.itemQuantity }}</p>
+                  <p class="card-text"><strong>Cost: ₹</strong>{{ item.itemCost }}</p>
+                  <div class="d-flex align-items-center">
+                    <input type="number" [(ngModel)]="item.itemQuantity" class="form-control me-2" style="width: 70px;">
+                  </div>
                   <button class="btn btn-secondary btn-sm me-2" (click)="modifyQuantity(item)">Update</button>
-                  <button class="btn btn-danger btn-sm" (click)="removeFromCart(item)">Remove</button>
                 </div>
               </div>
             </div>
@@ -37,16 +47,16 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-body d-flex justify-content-between align-items-center">
-            <h5 class="card-title">Total Cost: {{ getTotalCost() }}</h5>
+            <h5 class="total-cost">Total Cost:₹{{ getTotalCost() }}</h5>
             <button class="btn btn-primary" (click)="checkout()">Proceed to Checkout</button>
           </div>
         </div>
       </div>
     </div>
+    <ng-template #emptyCart>
+      <div class="alert alert-warning">
+        Your cart is empty.
+      </div>
+    </ng-template>
   </div>
-  <ng-template #emptyCart>
-    <div class="alert alert-warning">
-      Your cart is empty.
-    </div>
-  </ng-template>
 </div>
