@@ -3,24 +3,25 @@
   background: rgb(190, 239, 240);
 }
 
+
 .username-container{
   text-align: right;
   background: #1a6e6e;
   
-}z
+}
 
 .item-container{
   background: #1a6e6e;
+  padding: 10px;
+  
 }
-.card {
+.card-container {
+  background: #57bdb4;
     border: 1px solid #dee2e6;
     border-radius: 0.25rem;
     box-shadow: 0 1px 3px rgba(0.2, 0.2, 0.2, 1);
   }
-  .card-body {
-    padding: 1rem;
-    background: #57bdb4;
-  }
+  
 
  #username{
    color: rgba(239, 219, 0, 0.927);
@@ -30,7 +31,7 @@
   
   }
 
-  .cart-btb-container{
+  .cart-container{
     text-align: right;
     font-weight: bolder;
     font-family: sans-serif;
@@ -42,7 +43,7 @@
   .cart-btn{
     background: #0f1010c4;
     color: aliceblue;
-    margin: 20px;
+    margin: 40px;
   }
  
   .cart-btn:hover{
@@ -51,5 +52,13 @@
 
   .item-list{
     padding:0px 0px 10px 10px;
+    font-size: 40px;
     color: rgb(184, 128, 7);
+    margin: 40px;
   }
+ 
+  .card-img {
+    width: 100px; /* Set the width of the image */
+    height: auto; /* Maintain aspect ratio */
+  }
+  

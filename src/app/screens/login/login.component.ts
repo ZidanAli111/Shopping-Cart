@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
 
   user: User = { userId: 0, username: '', password: '' };
   passwordVisible = false;
+  loading = false;
+  errorMessage: string | null = null;
 
   constructor(
     private userLoginService: UserLoginService,
@@ -21,23 +23,28 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void { }
 
   userLogin() {
+    if (!this.user.username || !this.user.password) {
+      this.errorMessage = "Username and Password are required";
+      return;
+    }
+
+    this.loading = true;
     this.userLoginService.login(this.user).subscribe(
       (data: User) => {
-        // Encode user data in Base64
+        this.loading = false;
         const userData = btoa(JSON.stringify(data));
-        // Store encoded user data in local storage
         localStorage.setItem('currentUser', userData);
-        console.log("User login successfully ", data);
         alert("Login Successful");
-        // Navigate to the item screen
         this.router.navigate(['/item']);
       },
-      error => alert("Login error occurred!!!")
+      error => {
+        this.loading = false;
+        this.errorMessage = "Login error occurred!!!";
+      }
     );
   }
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
   }
-
 }

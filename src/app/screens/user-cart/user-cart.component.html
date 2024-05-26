@@ -15,7 +15,7 @@
         <div *ngFor="let item of userCart" class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4">
-            <!-- <img src="../../../assets/images/background.jpg" alt="Product Image"> -->
+              <img [src]="'assets/images/' + item.sku + '.jpg'" class="card-img img-fluid" alt="Product Image">
             </div>
             <div class="col-md-8">
               <div class="card-body">

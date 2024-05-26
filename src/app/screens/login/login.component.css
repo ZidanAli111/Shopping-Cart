@@ -1,17 +1,53 @@
-
 .login-container {
     margin: 10px;
-}
-
-.email-container {
+  }
+  
+  .email-container {
     text-align: start;
-}
-
-.password-container {
+  }
+  
+  .password-container {
     text-align: start;
-}
-
-.gradient-custom{
+  }
+  
+  .gradient-custom {
     background: rgba(1, 15, 88, 0.5);
-}
-
+  }
+  
+  .has-error .form-control {
+    border-color: #dc3545;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875em;
+  }
+  
+  .input-group {
+    position: relative;
+  }
+  
+  .input-group .input-group-text {
+    cursor: pointer;
+    border-left: none;
+  }
+  
+  .input-group .input-group-text i {
+    font-size: 1.2em;
+  }
+  
+  .input-group .form-control {
+    border-right: none;
+  }
+  
+  .input-group .input-group-append {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+  }
+  
+  .dark-eye {
+    color: #333;
+  }
+  
