@@ -41,11 +41,11 @@ export class ItemComponent implements OnInit {
     }, error => alert("Item error occurred!!!"));
   }
 
-  increaseQuantity(item: Item): void {
-    if (item && item.itemQuantity !== undefined) {
-      item.itemQuantity++;
-    }
-  }
+  // increaseQuantity(item: Item): void {
+  //   if (item && item.itemQuantity !== undefined) {
+  //     item.itemQuantity++;
+  //   }
+  // }
 
   addToCart(item: Item): void {
     if (this.userId !== null) {

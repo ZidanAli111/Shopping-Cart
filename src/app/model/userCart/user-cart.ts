@@ -1,8 +1,8 @@
 export class UserCart {
-    userId: number | undefined
-    sku: string | undefined
-    itemQuantity: number | undefined
-    itemDescription: string | undefined
-    itemCost: number | undefined
-    status: string | undefined
+    userId!: number 
+    sku!: string 
+    itemQuantity!: number 
+    itemDescription!: string 
+    itemCost!: number 
+    status!: string 
 }

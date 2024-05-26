@@ -13,6 +13,7 @@ export class UserCartComponent implements OnInit {
   userCart: UserCart[] | undefined;
   username: string | null = null;
   userId: number | null = null;
+  sku!: string;
 
   constructor(
     private userCartService: UserCartService,
@@ -45,8 +46,15 @@ export class UserCartComponent implements OnInit {
   }
 
   modifyQuantity(item: UserCart): void {
-    console.log('Adjusting quantity for:', item);
-    alert('Quantity updated successfully!');
+    console.log(" modfiedQuantity usesrID:" + this.userId);
+    this.sku = item.sku;
+    if (this.userId !== null && item !== null) {
+      console.log(item);
+      this.userCartService.modifyItemQuantity(this.userId, this.sku, item).subscribe(data=>{
+        console.log(data);
+      })
+      alert("Item quantity modified!!!");
+    }
   }
 
   addToCheckout(item: UserCart): void {

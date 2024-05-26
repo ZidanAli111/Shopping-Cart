@@ -1,4 +1,13 @@
+<div class="username-parent-container">
+  <div class="row">
+    <div class="username-container">
+      <p id="username">Hi {{username}}</p>
+    </div>
+  </div>
+</div>
+
 <div class="container mt-5">
+
   <h2>User Cart</h2>
   <div *ngIf="userCart && userCart.length > 0; else emptyCart">
     <div class="row">
@@ -6,7 +15,7 @@
         <div *ngFor="let item of userCart" class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4">
-              <img src="assets/item-placeholder.png" class="img-fluid rounded-start" alt="Product Image">
+            <!-- <img src="../../../assets/images/background.jpg" alt="Product Image"> -->
             </div>
             <div class="col-md-8">
               <div class="card-body">
