@@ -1,19 +1,25 @@
 .parent-container {
- background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(240,137,58,1) 0%, rgba(252,156,208,1) 100%); 
+  background: rgb(241,241,241);
+background: linear-gradient(326deg, rgba(241,241,241,1) 0%, rgba(14,14,14,1) 100%); 
 }
 
 .username-container {
-  text-align: left;
-  background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(240,137,58,1) 0%, rgba(252,156,208,1) 100%);  
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  background: rgb(241,241,241);
+background: linear-gradient(326deg, rgba(241,241,241,1) 0%, rgba(14,14,14,1) 100%); 
 }
 
-#username {
+.username {
   color: rgba(255, 255, 255, 0.927);
   font-family: Arial, Helvetica, sans-serif;
   padding: 10px 10px 0px 10px;
   font-size: 30px;
+}
+.logout-btn{
+padding: 30px;
+
 }
 
 .cart-container {
@@ -46,8 +52,8 @@
 .item-container {
   
 
-  background: rgb(34,193,195);
-  background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%); 
+  background: rgb(241,241,241);
+background: linear-gradient(326deg, rgba(241,241,241,1) 0%, rgba(14,14,14,1) 100%); 
   padding: 10px;
   border-radius: 10px;
 }

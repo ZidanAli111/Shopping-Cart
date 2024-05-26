@@ -7,6 +7,7 @@ import { LoginComponent } from './screens/login/login.component';
 import { ItemComponent } from './screens/item/item.component';
 import { FormsModule } from '@angular/forms';
 import { UserCartComponent } from './screens/user-cart/user-cart.component';
+import { LogoutButtonComponent } from './screens/logout/logout-button/logout-button.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { UserCartComponent } from './screens/user-cart/user-cart.component';
     LoginComponent,
     ItemComponent,
     UserCartComponent,
+    LogoutButtonComponent,
   ],
   imports: [
     BrowserModule,

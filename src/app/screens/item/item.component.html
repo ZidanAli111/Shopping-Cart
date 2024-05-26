@@ -2,7 +2,11 @@
   <div class="username-parent-container">
     <div class="row">
       <div class="username-container">
-        <p id="username">Hi, {{ username }}</p>
+        <p class="username" id="username">Hi, {{ username }}</p>
+        <div class="col text-end">
+          <!-- Logout button component -->
+          <app-logout-button class="logout-btn"></app-logout-button>
+        </div>
       </div>
     </div>
   </div>
