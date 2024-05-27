@@ -15,42 +15,34 @@
     <h2 class="item-list">User Cart</h2>
   </div>
 
-
   <!-- Items List in card -->
-  <div class="items-parent-container">
-    <div class="item-container row">
-      <div *ngIf="userCart && userCart.length > 0; else emptyCart">
-        <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let item of userCart">
-          <div class="card card-container h-100">
-            <div class="row g-0 h-100">
-              <div class="col-4 col-md-4 item-img-container">
-                <img [src]="'assets/images/' + item.sku + '.jpg'" class="card-img img-fluid" alt="Product Image">
-              </div>
-              <div class="col-8 col-md-8 d-flex flex-column">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-text">SKU: {{ item.sku }}</h5>
-                  <p class="card-text"><strong>Description:</strong> {{ item.itemDescription }}</p>
-                  <p class="card-text"><strong>Quantity:</strong> {{ item.itemQuantity }}</p>
-                  <p class="card-text"><strong>Cost: ₹</strong>{{ item.itemCost }}</p>
-                  <div class="d-flex align-items-center">
-                    <input type="number" [(ngModel)]="item.itemQuantity" class="form-control me-2" style="width: 70px;">
-                  </div>
-                  <button class="btn btn-secondary btn-sm me-2" (click)="modifyQuantity(item)">Update</button>
+    <div class="item-container">
+      <div class="items" *ngIf="userCart && userCart.length > 0; else emptyCart">
+        <div *ngFor="let item of userCart">
+          <div class="card-item-container card  ">
+            <div class="item-img-container">
+              <img [src]="'assets/images/' + item.sku + '.jpg'" class="card-img img-fluid" alt="Product Image">
+            </div>
+            <div class="card-body-container">
+              <h5 class="card-text">SKU: {{ item.sku }}</h5>
+              <p class="card-text"><strong>Description:</strong> {{ item.itemDescription }}</p>
+              <p class="card-text"><strong>Cost: ₹</strong>{{ item.itemCost }}</p>
+              <div class="quantity">
+                <p class="card-text" style="display:inline-block;"><strong>Quantity: </strong></p>
+                <div class="quantity-container" style="display:inline-block;">
+                  <input type="number" [(ngModel)]="item.itemQuantity" class="form-control me-2" style="width: 70px; " min="1">
                 </div>
               </div>
+              <button class="update-quantity-btn btn btn-secondary btn-sm me-2" (click)="modifyQuantity(item)">UPDATE</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <h5 class="total-cost">Total Cost:₹{{ getTotalCost() }}</h5>
-            <button class="btn btn-primary" (click)="checkout()">Proceed to Checkout</button>
-          </div>
-        </div>
+    <div class="bottom-container">
+      <div class="checkout-container">
+        <h5 class="total-cost">Total Cost: ₹{{ getTotalCost() }}</h5>
+        <button class="checkout-btn btn btn-primary" (click)="checkout()">CHECKOUT</button>
       </div>
     </div>
     <ng-template #emptyCart>
@@ -58,5 +50,4 @@
         Your cart is empty.
       </div>
     </ng-template>
-  </div>
 </div>
