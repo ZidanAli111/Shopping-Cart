@@ -16,38 +16,38 @@
   </div>
 
   <!-- Items List in card -->
-    <div class="item-container">
-      <div class="items" *ngIf="userCart && userCart.length > 0; else emptyCart">
-        <div *ngFor="let item of userCart">
-          <div class="card-item-container card  ">
-            <div class="item-img-container">
-              <img [src]="'assets/images/' + item.sku + '.jpg'" class="card-img img-fluid" alt="Product Image">
-            </div>
-            <div class="card-body-container">
-              <h5 class="card-text">SKU: {{ item.sku }}</h5>
-              <p class="card-text"><strong>Description:</strong> {{ item.itemDescription }}</p>
-              <p class="card-text"><strong>Cost: ₹</strong>{{ item.itemCost }}</p>
-              <div class="quantity">
-                <p class="card-text" style="display:inline-block;"><strong>Quantity: </strong></p>
-                <div class="quantity-container" style="display:inline-block;">
-                  <input type="number" [(ngModel)]="item.itemQuantity" class="form-control me-2" style="width: 70px; " min="1">
-                </div>
+  <div class="item-container">
+    <div class="items" *ngIf="userCart && userCart.length > 0; else emptyCart">
+      <div *ngFor="let item of userCart">
+        <div class="card-item-container card">
+          <div class="item-img-container">
+            <img [src]="'assets/images/' + item.sku + '.jpg'" class="card-img img-fluid" alt="Product Image">
+          </div>
+          <div class="card-body-container">
+            <h5 class="card-text">SKU: {{ item.sku }}</h5>
+            <p class="card-text"><strong>Description:</strong> {{ item.itemDescription }}</p>
+            <p class="card-text"><strong>Cost: ₹</strong>{{ item.itemCost }}</p>
+            <div class="quantity">
+              <p class="card-text"><strong>Quantity: </strong>{{ item.itemQuantity }}</p>
+              <div class="quantity-container">
+                <input type="number" [(ngModel)]="item.itemQuantity" class="form-control me-2" style="width: 70px;" min="1">
               </div>
-              <button class="update-quantity-btn btn btn-secondary btn-sm me-2" (click)="modifyQuantity(item)">UPDATE</button>
             </div>
+            <button class="update-quantity-btn btn btn-secondary btn-sm me-2" (click)="modifyQuantity(item)">UPDATE</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="bottom-container">
-      <div class="checkout-container">
-        <h5 class="total-cost">Total Cost: ₹{{ getTotalCost() }}</h5>
-        <button class="checkout-btn btn btn-primary" (click)="checkout()">CHECKOUT</button>
-      </div>
+  </div>
+  <div class="bottom-container">
+    <div class="checkout-container">
+      <h5 class="total-cost">Total Cost: ₹{{ getTotalCost() }}</h5>
+      <button class="checkout-btn btn btn-primary" (click)="checkout()">CHECKOUT</button>
     </div>
-    <ng-template #emptyCart>
-      <div class="alert alert-warning">
-        Your cart is empty.
-      </div>
-    </ng-template>
+  </div>
+  <ng-template #emptyCart>
+    <div class="alert alert-warning">
+      Your cart is empty.
+    </div>
+  </ng-template>
 </div>
