@@ -1,6 +1,7 @@
 /* General Container Styles */
 .parent-container {
-  background: linear-gradient(326deg, rgba(241, 241, 241, 1) 0%, rgba(14, 14, 14, 1) 100%);
+  background: rgb(205,205,205);
+  background: linear-gradient(326deg, rgba(205,205,205,1) 1%, rgba(255,255,255,1) 24%, rgba(255,255,255,1) 43%, rgba(148,145,145,1) 100%); 
   min-height: 100vh; /* Set minimum height to cover the entire viewport height */
 }
 
@@ -8,7 +9,8 @@
   padding: 10px;
   display: flex;
   justify-content: space-between;
-  background: linear-gradient(326deg, rgba(241, 241, 241, 1) 0%, rgba(14, 14, 14, 1) 100%);
+  background: rgb(205,205,205);
+  background: linear-gradient(326deg, rgba(205,205,205,1) 1%, rgba(255,255,255,1) 24%, rgba(255,255,255,1) 43%, rgba(148,145,145,1) 100%); 
 }
 
 .username {
@@ -47,10 +49,10 @@
   align-items: center;
 }
 .card-item-container {
-  background: #313030; /* Original dark color */
-  border: 1px solid #dee2e6;
+  background: #afafaf; /* Original dark color */
+  border: 1px solid #2e2f2f;
   border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
   margin-bottom: 15px;
   display: flex;
   overflow: hidden;

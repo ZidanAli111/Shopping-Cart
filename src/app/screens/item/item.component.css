@@ -1,6 +1,6 @@
 .parent-container {
-  background: rgb(241,241,241);
-background: linear-gradient(326deg, rgba(241,241,241,1) 0%, rgba(14,14,14,1) 100%); 
+  background: rgb(205,205,205);
+background: linear-gradient(326deg, rgba(205,205,205,1) 1%, rgba(255,255,255,1) 24%, rgba(255,255,255,1) 43%, rgba(148,145,145,1) 100%);  
 }
 
 .username-container {
@@ -8,7 +8,8 @@ background: linear-gradient(326deg, rgba(241,241,241,1) 0%, rgba(14,14,14,1) 100
   display: flex;
   justify-content: space-between;
   background: rgb(241,241,241);
-background: linear-gradient(326deg, rgba(241,241,241,1) 0%, rgba(14,14,14,1) 100%); 
+  background: rgb(205,205,205);
+  background: linear-gradient(326deg, rgba(205,205,205,1) 1%, rgba(255,255,255,1) 24%, rgba(255,255,255,1) 43%, rgba(148,145,145,1) 100%); 
 }
 
 .username {
@@ -53,14 +54,15 @@ padding: 10px 15px 0px 0px;
   
 
   background: rgb(241,241,241);
-background: linear-gradient(326deg, rgba(241,241,241,1) 0%, rgba(14,14,14,1) 100%); 
+  background: rgb(205,205,205);
+  background: linear-gradient(326deg, rgba(205,205,205,1) 1%, rgba(255,255,255,1) 24%, rgba(255,255,255,1) 43%, rgba(148,145,145,1) 100%); 
   padding: 10px;
   border-radius: 10px;
 }
 
 .card-container {
-  background: #313030;
-  border: 1px solid #dee2e6;
+  background: #8b8b8b;
+  border: 1px solid #6f7071;
   border-radius: 0.25rem;
   box-shadow: 0 1px 3px rgba(0.2, 0.2, 0.2, 1);
   display: flex;
