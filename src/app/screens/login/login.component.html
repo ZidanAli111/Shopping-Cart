@@ -1,0 +1,62 @@
+<div class="vh-100 gradient-custom login-parent-container">
+  <form (ngSubmit)="userLogin()" #loginForm="ngForm" novalidate>
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class=" login-parent-container card  text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+              <div class="login-container">
+                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                <p class="text-white mb-5"><strong>Please enter your login and password!</strong></p>
+
+                <div data-mdb-input-init class="email-container form-outline form-white mb-4"
+                  [ngClass]="{ 'has-error': username.invalid && (username.dirty || username.touched) }">
+                  <label class="form-label email-label" for="typeEmailX">Email</label>
+                  <input type="email" id="username" name="username" [(ngModel)]="user.username" #username="ngModel"
+                    class="form-control form-control-lg" required email />
+                  <div *ngIf="username.invalid && (username.dirty || username.touched)" class="error-message">
+                    <div *ngIf="username.errors?.['required']">Email is required.</div>
+                    <div *ngIf="username.errors?.['email']">Invalid email address.</div>
+                  </div>
+                </div>
+
+                <div data-mdb-input-init class="password-container form-outline form-white mb-4"
+                  [ngClass]="{ 'has-error': password.invalid && (password.dirty || password.touched) }">
+                  <label class="form-label password-label" for="typePasswordX">Password</label>
+                  <div class="input-group">
+                    <input [type]="passwordVisible ? 'text' : 'password'" id="password" name="password"
+                      [(ngModel)]="user.password" #password="ngModel" class="form-control form-control-lg" required
+                      minlength="8" />
+                    <div class="input-group-append">
+                      <span class="input-group-text" (click)="togglePasswordVisibility()">
+                        <i [ngClass]="passwordVisible ? 'fas fa-eye-slash black-eye' : 'fas fa-eye black-eye'"></i>
+
+
+                      </span>
+                    </div>
+                  </div>
+                  <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-message">
+                    <div *ngIf="password.errors?.['required']">Password is required.</div>
+                    <div *ngIf="password.errors?.['minlength']">Password must be at least 8 characters long.</div>
+                  </div>
+                </div>
+
+                <button data-mdb-button-init data-mdb-ripple-init class="  btn btn-outline-light btn-lg px-5"
+                  type="submit" [disabled]="loginForm.invalid || loading">
+                  <strong>Login</strong>
+                </button>
+                <div *ngIf="loading" class="mt-3">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Loading...
+                </div>
+                <div *ngIf="errorMessage" class="mt-3 text-danger">
+                  {{ errorMessage }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

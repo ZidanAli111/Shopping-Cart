@@ -1,0 +1,53 @@
+<div class="parent-container">
+  <div class="username-parent-container">
+    <div class="row">
+      <div class="username-container">
+        <p class="username" id="username">Hi, {{ username }}</p>
+        <div class="col text-end">
+          <!-- Logout button component -->
+          <app-logout-button class="logout-btn"></app-logout-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-container">
+    <h2 class="item-list">User Cart</h2>
+  </div>
+
+  <!-- Items List in card -->
+  <div class="item-container">
+    <div class="items" *ngIf="userCart && userCart.length > 0; else emptyCart">
+      <div *ngFor="let item of userCart">
+        <div class="card-item-container card">
+          <div class="item-img-container">
+            <img [src]="'assets/images/' + item.sku + '.jpg'" class="card-img img-fluid" alt="Product Image">
+          </div>
+          <div class="card-body-container">
+            <h5 class="card-text"><strong>SKU:</strong> {{ item.sku }}</h5>
+            <p class="card-text"><strong>Description:</strong> {{ item.itemDescription }}</p>
+            <p class="card-text"><strong>Cost: ₹</strong>{{ item.itemCost }}</p>
+            <div class="quantity">
+              <p class="card-text"><strong>Quantity: </strong>{{ item.itemQuantity }}</p>
+              <div class="quantity-container">
+                <input type="number" [(ngModel)]="item.itemQuantity" class="form-control me-2" style="width: 70px;" min="1">
+              </div>
+            </div>
+            <button class="update-quantity-btn btn btn-secondary btn-sm me-2" (click)="modifyQuantity(item)">UPDATE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-container">
+    <div class="checkout-container">
+      <h5 class="total-cost">Total Cost: ₹{{ getTotalCost() }}</h5>
+      <button class="checkout-btn btn btn-primary" (click)="checkout()">CHECKOUT</button>
+    </div>
+  </div>
+  <ng-template #emptyCart>
+    <div class="alert alert-warning">
+      Your cart is empty.
+    </div>
+  </ng-template>
+</div>

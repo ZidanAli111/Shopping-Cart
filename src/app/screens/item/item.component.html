@@ -1,0 +1,47 @@
+<div class="parent-container">
+  <div class="username-parent-container">
+    <div class="row">
+      <div class="username-container">
+        <p class="username" id="username">Hi, {{ username }}</p>
+        <div class="col text-end">
+          <!-- Logout button component -->
+          <app-logout-button class="logout-btn"></app-logout-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Item cart -->
+  <div class="cart-container">
+    <h2 class="item-list">Item List</h2>
+    <button class="cart-btn btn btn-primary" (click)="displayCartItem()">CART</button>
+  </div>
+
+  <!-- Items List in card -->
+  <div class="items-parent-container">
+    <div class="item-container row">
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let item of items">
+        <div class="card card-container h-100">
+          <div class="row g-0 h-100">
+            <div class="col-4 col-md-4 item-img-container">
+              <img [src]="'assets/images/' + item.sku + '.jpg'" class="card-img img-fluid" alt="Product Image">
+            </div>
+            <div class="col-8 col-md-8 d-flex flex-column">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-text"><strong>SKU:</strong> {{ item.sku }}</h5>
+                <p class="card-text"><strong>Description:</strong> {{ item.itemDescription }}</p>
+                <p class="card-text"><strong>Quantity:</strong> {{ item.itemQuantity }}</p>
+                <p class="card-text"><strong>Cost: ₹</strong>{{ item.itemCost }}</p>
+                <p class="card-text"><strong>Manufacturer Number:</strong> {{ item.mfrNo }}</p>
+                <p class="card-text"><strong>Vendor Number:</strong> {{ item.vendorNo }}</p>
+                <div class="mt-auto d-flex justify-content-end">
+                  <button class="btn btn-primary" (click)="addToCart(item)">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

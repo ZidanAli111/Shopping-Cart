@@ -1,0 +1,143 @@
+.parent-container {
+  background: rgb(205,205,205);
+background: linear-gradient(326deg, rgba(205,205,205,1) 1%, rgba(255,255,255,1) 24%, rgba(255,255,255,1) 43%, rgba(148,145,145,1) 100%);  
+}
+
+.username-container {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  background: rgb(241,241,241);
+  background: rgb(205,205,205);
+  background: linear-gradient(326deg, rgba(205,205,205,1) 1%, rgba(255,255,255,1) 24%, rgba(255,255,255,1) 43%, rgba(148,145,145,1) 100%); 
+}
+
+.username {
+  color: rgba(255, 255, 255, 0.927);
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px 10px 0px 10px;
+  font-size: 30px;
+}
+.logout-btn{
+padding: 10px 15px 0px 0px;
+
+}
+
+.cart-container {
+  text-align: right;
+  font-weight: bolder;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-btn {
+  background: #0f1010c4;
+  color: aliceblue;
+  margin: 40px 15px 20px 40px;
+}
+
+.cart-btn:hover {
+  background-color: #6f7172;
+}
+
+.item-list {
+  padding: 0px 0px 0px 10px;
+  font-size: 40px;
+  font-weight: bold;
+  font-family:Arial, Helvetica, sans-serif;
+  color: rgb(255, 255, 255);
+  margin: 40px 15px 20px 0px;
+}
+
+.item-container {
+  
+
+  background: rgb(241,241,241);
+  background: rgb(205,205,205);
+  background: linear-gradient(326deg, rgba(205,205,205,1) 1%, rgba(255,255,255,1) 24%, rgba(255,255,255,1) 43%, rgba(148,145,145,1) 100%); 
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.card-container {
+  background: #8b8b8b;
+  border: 1px solid #6f7071;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 3px rgba(0.2, 0.2, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.item-img-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 15px 10px 10px 15px;
+ 
+}
+
+.card-img {
+  width: 100%;
+  height: 200px;
+  box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.486);
+  object-fit: cover;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  height: 100%;
+  padding: 10px;
+}
+
+.card-title {
+  margin-bottom: 10px;
+}
+
+.card-text {
+  margin-bottom: 10px;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
+@media (max-width: 768px) {
+  .item-img-container {
+    text-align: center;
+  }
+
+  .card-body {
+    padding: 10px;
+  }
+
+  .card-text {
+    margin-bottom: 5px;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .item-img-container {
+    text-align: center;
+    padding: 10px;
+  }
+
+  .card-body {
+    padding: 10px;
+  }
+
+  .card-text {
+    margin-bottom: 5px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+}
