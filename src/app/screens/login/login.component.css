@@ -1,0 +1,57 @@
+.login-container {
+  margin: 10px;
+}
+
+.email-container {
+  text-align: start;
+}
+
+.login-parent-container {
+  background: rgb(76, 75, 75);
+}
+
+.password-container {
+  text-align: start;
+}
+
+.gradient-custom {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(326deg, rgba(255, 255, 255, 1) 0%, rgb(145, 146, 146) 100%);
+}
+
+.has-error .form-control {
+  border-color: #dc3545;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875em;
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-group .input-group-text {
+  cursor: pointer;
+  border-left: none;
+}
+
+.input-group .input-group-text i {
+  font-size: 1.2em;
+}
+
+.input-group .form-control {
+  border-right: none;
+}
+
+.input-group .input-group-append {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.dark-eye {
+  color: #333;
+}

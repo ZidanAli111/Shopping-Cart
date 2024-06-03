@@ -1,0 +1,172 @@
+/* General Container Styles */
+.parent-container {
+  background: rgb(205,205,205);
+  background: linear-gradient(326deg, rgba(205,205,205,1) 1%, rgba(255,255,255,1) 24%, rgba(255,255,255,1) 43%, rgba(148,145,145,1) 100%); 
+  min-height: 100vh; /* Set minimum height to cover the entire viewport height */
+}
+
+.username-container {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  background: rgb(64, 63, 63);
+ 
+}
+
+.username {
+  color: #ffffff; /* White color for username text */
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  padding-left: 20px;
+}
+
+.logout-btn {
+  padding: 10px 20px;
+}
+
+/* Cart Container and Item List Heading */
+.cart-container {
+  font-weight: bolder;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.item-list {
+  font-size: 40px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+}
+
+/* Item Container and Card Items */
+.item-container {
+  padding: 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card-item-container {
+  background: #afafaf; /* Original dark color */
+  border: 1px solid #2e2f2f;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
+  margin-bottom: 15px;
+  display: flex;
+  overflow: hidden;
+  width: 70vw; /* Set width to 70% of the viewport width */
+  max-width: 600px;
+  flex-direction: row; /* Set flex direction to row */
+}
+
+
+.item-img-container {
+  padding: 10px;
+}
+
+.card-img {
+  width: 200px; /* Set a fixed width */
+  height: 200px; /* Set a fixed height */
+  box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.486); /* Keep the outer glow */
+  object-fit: cover;
+}
+
+
+.card-body-container {
+  flex: 5; /* Adjust the flex value to make it wider */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.card-text {
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.quantity-container {
+  display: flex;
+  align-items: center; /* Align quantity scroller vertically */
+}
+
+.quantity-container input {
+  margin-right: 5px; /* Add a small margin between quantity text and scroller */
+}
+
+.update-quantity-btn {
+  font-weight: bold;
+  margin-top: 10px; /* Add margin to the left of the update button */
+}
+
+/* Checkout and Total Cost */
+.bottom-container {
+  background: linear-gradient(326deg, rgba(241, 241, 241, 1) 0%, rgba(14, 14, 14, 1) 100%);
+  padding: 10px 0;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.checkout-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.total-cost {
+  font-weight: bold;
+  color: #ffffff; /* White color for total cost text */
+  font-size: 25px;
+  font-family: sans-serif;
+}
+
+.checkout-btn {
+  font-size: 20px;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #2874f0;
+  border-color: #2874f0;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1a5bb8;
+  border-color: #1a5bb8;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .username-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .username, .logout-btn {
+    padding: 5px 0;
+  }
+
+  .card-item-container {
+    flex-direction: column;
+  }
+
+  .item-img-container {
+    padding: 10px;
+  }
+
+  .card-text {
+    margin-bottom: 5px;
+    padding-right: 5px;
+  }
+}
