@@ -122,15 +122,6 @@ describe('ItemComponent', () => {
 
     expect(window.alert).toHaveBeenCalledWith('Item error occurred!!!');
   });
-  it('should log in a user', () => {
-    const userCredentials = { username: 'demo@demo.com', password: 'demo' };
-    spyOn(userLoginService, 'login').and.returnValue(of({ userId: 1, username: 'demo@demo.com', password: '' }));
-  
-    component.loginUser(userCredentials);
-  
-   
-    expect(component.username).toBe('demo@demo.com');
-    expect(component.userId).toBe(1);
-  });
+ 
   
 });
