@@ -18,7 +18,7 @@
   color: #ffffff; /* White color for username text */
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
-  padding-left: 30px;
+  padding-left: 20px;
 }
 
 .logout-btn {
@@ -39,7 +39,6 @@
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
   color: #fff;
-  padding-left: 30px;
 }
 
 /* Item Container and Card Items */

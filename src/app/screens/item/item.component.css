@@ -15,8 +15,8 @@
 .username {
   color: rgba(255, 255, 255, 0.927);
   font-family: Arial, Helvetica, sans-serif;
-  padding: 10px 10px 0px 30px;
-  font-size: 25px;
+  padding: 10px 10px 0px 10px;
+  font-size: 30px;
 }
  
 .logout-btn {
@@ -42,7 +42,7 @@
 }
  
 .item-list {
-  padding: 0px 0px 0px 30px;
+  padding: 0px 0px 0px 10px;
   font-size: 40px;
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
@@ -58,7 +58,6 @@
   background: rgb(205, 205, 205);
   background: linear-gradient(326deg, rgba(205, 205, 205, 1) 1%, rgba(255, 255, 255, 1) 24%, rgba(255, 255, 255, 1) 43%, rgba(148, 145, 145, 1) 100%);
   padding: 10px;
-  padding-left: 30px;
   border-radius: 10px;
 }
  
