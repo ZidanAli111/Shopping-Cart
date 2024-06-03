@@ -11,7 +11,7 @@ import { UserLoginService } from 'src/app/service/userLogin/userlogin.service';
 export class LoginComponent implements OnInit {
 
   user: User = { userId: 0, username: '', password: '' };
-  passwordVisible = false;
+  passwordVisible = true;
   loading = false;
   errorMessage: string | null = null;
 
