@@ -1,136 +1,96 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { of, throwError } from 'rxjs';
-import { ItemService } from 'src/app/service/item/item.service';
-import { Item } from 'src/app/model/item/item';
-import { ItemComponent } from '../item/item.component';
+import { User } from 'src/app/model/user/user';
 import { UserLoginService } from 'src/app/service/userLogin/userlogin.service';
-
-describe('ItemComponent', () => {
-  let component: ItemComponent;
-  let fixture: ComponentFixture<ItemComponent>;
-  let itemService: ItemService;
-  let userLoginService:UserLoginService;
-  let router: Router;
-  let httpMock: HttpTestingController;
-
+import { LoginComponent } from './login.component';
+ 
+class MockUserLoginService {
+  currentUser: User = { userId: 1, username: 'testuser', password: 'testpass' };
+ 
+  login(user: User) {
+    return of(this.currentUser);
+  }
+ 
+  setCurrentUser(user: User): void {
+    this.currentUser = user;
+  }
+ 
+  getCurrentUser(): User | null {
+    return this.currentUser;
+  }
+ 
+  getUserId(): number | null {
+    return this.currentUser?.userId ?? null;
+  }
+ 
+  getUsername(): string | null {
+    return this.currentUser?.username ?? null;
+  }
+}
+ 
+describe('LoginComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
+  let mockUserLoginService: MockUserLoginService;
+  let mockRouter: jasmine.SpyObj<Router>;
+ 
   beforeEach(async () => {
+    mockUserLoginService = new MockUserLoginService();
+    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+ 
     await TestBed.configureTestingModule({
-      declarations: [ItemComponent],
-      imports: [HttpClientTestingModule],
+      declarations: [LoginComponent],
+      imports: [FormsModule], // Import FormsModule
       providers: [
-        ItemService,
-        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } }
+        { provide: UserLoginService, useValue: mockUserLoginService },
+        { provide: Router, useValue: mockRouter }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
-
+ 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ItemComponent);
+    fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    itemService = TestBed.inject(ItemService);
-    router = TestBed.inject(Router);
-    httpMock = TestBed.inject(HttpTestingController);
-
     fixture.detectChanges();
   });
-
-  afterEach(() => {
-    httpMock.verify();
-  });
-
-  it('should create', () => {
+ 
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should retrieve user data from local storage on init', () => {
-    spyOn(localStorage, 'getItem').and.callFake((key: string) => {
-      if (key === 'currentUser') {
-        return btoa(JSON.stringify({ username: 'testuser', userId: 1 }));
-      }
-      return null;
-    });
-
-    component.ngOnInit();
-    expect(component.username).toBe('testuser');
-    expect(component.userId).toBe(1);
+ 
+  it('should login successfully', () => {
+    spyOn(mockUserLoginService, 'login').and.callThrough();
+    component.user.username = 'testuser';
+    component.user.password = 'testpass';
+    component.userLogin();
+    expect(mockUserLoginService.login).toHaveBeenCalledWith(component.user);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/item']);
   });
-
-  it('should navigate to login if user is not logged in', () => {
-    spyOn(localStorage, 'getItem').and.returnValue(null);
-    component.ngOnInit();
-    expect(router.navigate).toHaveBeenCalledWith(['/login']);
+ 
+  it('should handle login error', () => {
+    spyOn(mockUserLoginService, 'login').and.returnValue(throwError({ status: 401 }));
+    component.user.username = 'testuser';
+    component.user.password = 'testpass';
+    component.userLogin();
+    expect(component.loading).toBeFalse();
+    expect(component.errorMessage).toBe('Login error occurred!!!');
   });
-
-  it('should get items on init', () => {
-    const mockItems: Item[] = [
-      {
-        sku: 'item1', itemDescription: 'Item 1', itemQuantity: 1, itemCost: 100,
-        mfrNo: 'jklhghkm',
-        vendorNo: 111
-      },
-      {
-        sku: 'item2', itemDescription: 'Item 2', itemQuantity: 2, itemCost: 200,
-        mfrNo: 'cbghjkn',
-        vendorNo: 222
-      }
-    ];
-
-    spyOn(itemService, 'getItemList').and.returnValue(of(mockItems));
-    component.ngOnInit();
-    expect(component.items).toEqual(mockItems);
+ 
+  it('should show error if username or password is missing', () => {
+    component.user.username = '';
+    component.user.password = 'testpass';
+    component.userLogin();
+    expect(component.loading).toBeFalse();
+    expect(component.errorMessage).toBe('Username and Password are required');
   });
-
-  it('should add item to cart', () => {
-    const mockItem: Item = {
-      sku: 'item1', itemDescription: 'Item 1', itemQuantity: 1, itemCost: 100,
-      mfrNo: 'jklhghkm',
-      vendorNo: 111
-    };
-    spyOn(itemService, 'addToCart').and.returnValue(of({}));
-
-    component.userId = 1;
-    component.addToCart(mockItem);
-
-    expect(itemService.addToCart).toHaveBeenCalledWith(1, 'item1', 1);
+ 
+  it('should toggle password visibility', () => {
+    component.passwordVisible = false;
+    component.togglePasswordVisibility();
+    expect(component.passwordVisible).toBeTrue();
+    component.togglePasswordVisibility();
+    expect(component.passwordVisible).toBeFalse();
   });
-
-  it('should alert if user is not logged in when adding item to cart', () => {
-    spyOn(window, 'alert');
-    component.userId = null;
-    const mockItem: Item = {
-      sku: 'item1', itemDescription: 'Item 1', itemQuantity: 1, itemCost: 100,
-      mfrNo: 'jklhghkm',
-      vendorNo: 111
-    };
-    component.addToCart(mockItem);
-    expect(window.alert).toHaveBeenCalledWith('User is not logged in!');
-  });
-
-  it('should navigate to usercart when displayCartItem is called', () => {
-    component.displayCartItem();
-    expect(router.navigate).toHaveBeenCalledWith(['/usercart']);
-  });
-
-  it('should handle error when failing to get items', () => {
-    spyOn(window, 'alert');
-    spyOn(itemService, 'getItemList').and.returnValue(throwError('Item error occurred'));
-
-    component.ngOnInit();
-
-    expect(window.alert).toHaveBeenCalledWith('Item error occurred!!!');
-  });
-  it('should log in a user', () => {
-    const userCredentials = { username: 'zidan@gmail.com', password: 'password' };
-    spyOn(userLoginService, 'login').and.returnValue(of({ userId: 1, username: 'zidan@gmail.com', password: '' }));
-  
-    component.loginUser(userCredentials);
-  
-   
-    expect(component.username).toBe('zidan@gmail.com');
-    expect(component.userId).toBe(1);
-  });
-  
 });
