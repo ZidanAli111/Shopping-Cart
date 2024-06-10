@@ -15,7 +15,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.cdref.detectChanges()
-    this.router.navigate(['login'])
+    this.router.navigate(['item'])
   }
 
 }

@@ -57,6 +57,19 @@ export class UserCartComponent implements OnInit {
     }
   }
 
+  removeItem(item:UserCart):void{
+    console.log("userId :"+this.userId);
+    this.sku=item.sku;
+    if(this.userId!==null&&item!==null)
+    {
+      console.log(item);
+      this.userCartService.deleteCartItem(this.userId,this.sku).subscribe(data=>{
+        console.log(data);
+      })
+      alert("Item deleted successfully!!!");
+    }
+  }
+
   addToCheckout(item: UserCart): void {
     console.log('Adding to cart:', item);
     alert('Item added to checkout successfully!');

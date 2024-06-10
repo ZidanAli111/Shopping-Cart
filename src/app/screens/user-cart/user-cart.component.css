@@ -171,3 +171,8 @@
     padding-right: 5px;
   }
 }
+
+.update-remove-container{
+display: flex;
+justify-content: space-between;
+}

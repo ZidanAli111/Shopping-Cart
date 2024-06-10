@@ -80,6 +80,4 @@ describe('UserCartComponent', () => {
     component.modifyQuantity(userCart);
     expect(window.alert).toHaveBeenCalledWith('Item quantity modified!!!');
   });
- 
-  
 });
