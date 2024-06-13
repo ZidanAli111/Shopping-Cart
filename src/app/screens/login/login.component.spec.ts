@@ -7,7 +7,7 @@ import { UserLoginService } from 'src/app/service/userLogin/userlogin.service';
 import { LoginComponent } from './login.component';
  
 class MockUserLoginService {
-  currentUser: User = { userId: 1, username: 'testuser', password: 'testpass' };
+  currentUser: User = { userId: 1, username: '', password: '' };
  
   login(user: User) {
     return of(this.currentUser);
@@ -62,8 +62,8 @@ describe('LoginComponent', () => {
  
   it('should login successfully', () => {
     spyOn(mockUserLoginService, 'login').and.callThrough();
-    component.user.username = 'testuser';
-    component.user.password = 'testpass';
+    component.user.username = '';
+    component.user.password = '';
     component.userLogin();
     expect(mockUserLoginService.login).toHaveBeenCalledWith(component.user);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/item']);
@@ -71,8 +71,8 @@ describe('LoginComponent', () => {
  
   it('should handle login error', () => {
     spyOn(mockUserLoginService, 'login').and.returnValue(throwError({ status: 401 }));
-    component.user.username = 'testuser';
-    component.user.password = 'testpass';
+    component.user.username = '';
+    component.user.password = '';
     component.userLogin();
     expect(component.loading).toBeFalse();
     expect(component.errorMessage).toBe('Login error occurred!!!');
@@ -80,7 +80,7 @@ describe('LoginComponent', () => {
  
   it('should show error if username or password is missing', () => {
     component.user.username = '';
-    component.user.password = 'testpass';
+    component.user.password = '';
     component.userLogin();
     expect(component.loading).toBeFalse();
     expect(component.errorMessage).toBe('Username and Password are required');
