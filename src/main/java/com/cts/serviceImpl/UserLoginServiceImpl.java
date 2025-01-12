@@ -1,7 +1,5 @@
 package com.cts.serviceImpl;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,33 +13,25 @@ public class UserLoginServiceImpl implements UserLoginService {
 	@Autowired
 	private UserRepository userRepository;
 
-
-	
-	
 	@Override
 	public UserDetails authenticateUser(String username, String password) {
-		Optional<UserDetails> userOptional = Optional.ofNullable(userRepository.findByUsername(username)
-				.orElseThrow(() -> new RuntimeException("Username not found!!")));
-		if (userOptional.isPresent()) {
-			UserDetails user = userOptional.get();
-			if (user.getPassword().equals(password)) {
-				return user;
-			} else {
-				throw new RuntimeException("Invalid username or password");
-			}
+		// Find user by userName
+		UserDetails user = userRepository.findByUsername(username)
+				.orElseThrow(() -> new RuntimeException("Username not found!!"));
+
+		// Validate password
+		if (user.getPassword().equals(password)) {
+			return user;
 		} else {
 			throw new RuntimeException("Invalid username or password");
 		}
-
 	}
-	
+
 	@Override
 	public UserDetails getuserDetails(int userId) {
-
-		UserDetails userDetails = userRepository.findById(userId)
-				.orElseThrow(() -> new RuntimeException("Username not found!!"));
-
-		return userDetails;
+		// Find user by ID
+		return userRepository.findById(userId)
+				.orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 	}
 
 }
