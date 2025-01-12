@@ -7,15 +7,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -26,218 +26,168 @@ import com.cts.repository.ItemRepository;
 import com.cts.repository.UserCartRepository;
 import com.cts.repository.UserRepository;
 
+@ExtendWith(MockitoExtension.class)
 public class UserCartServiceImplTest {
 
-    @Mock
-    private UserCartRepository userCartRepository;
+	@InjectMocks
+	UserCartServiceImpl userCartService;
 
-    @Mock
-    private UserRepository userRepository;
+	@Mock
+	UserCartRepository userCartRepository;
 
-    @Mock
-    private ItemRepository itemRepository;
+	@Mock
+	UserRepository userRepository;
 
-    @InjectMocks
-    private UserCartServiceImpl userCartService;
+	@Mock
+	ItemRepository itemRepository;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+	private UserDetails userDetails;
+	private UserCartDetails userCartDetails;
+	private ItemDetails itemDetails;
 
-    @Test
-    void testAddToCart_UserNotFound() {
-        // Arrange
-        int userId = 1;
-        String sku = "SKU123";
-        int itemQuantity = 1;
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+	@BeforeEach
+	void setUp() {
 
-        // Act and Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            userCartService.addToCart(userId, sku, itemQuantity);
-        });
-        assertEquals("User not found", exception.getMessage());
-    }
+		userDetails = new UserDetails();
+		userDetails.setUserId(1);
+		userDetails.setUsername("zidan");
+		userDetails.setPassword("Shalinium");
 
-    @Test
-    void testAddToCart_ItemNotFound() {
-        // Arrange
-        int userId = 1;
-        String sku = "SKU123";
-        int itemQuantity = 1;
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUserId(userId);
-        when(userRepository.findById(userId)).thenReturn(Optional.of(userDetails));
-        when(itemRepository.findItemBySku(sku)).thenReturn(null);
+		userCartDetails = new UserCartDetails();
+		userCartDetails.setSku("SZ1424");
+		userCartDetails.setItemQuantity(10);
+		userCartDetails.setUserDetails(userDetails);
 
-        // Act and Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            userCartService.addToCart(userId, sku, itemQuantity);
-        });
-        assertEquals("Item not found!!", exception.getMessage());
-    }
+		itemDetails = new ItemDetails();
+		itemDetails.setSku("SZ1424");
+		itemDetails.setItemDescription("Smartphone");
+		itemDetails.setItemCost(100);
 
-    @Test
-    void testAddToCart_ItemAlreadyInCart() {
-        // Arrange
-        int userId = 1;
-        String sku = "SKU123";
-        int itemQuantity = 1;
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUserId(userId);
-        ItemDetails itemDetails = new ItemDetails();
-        itemDetails.setSku(sku);
-        UserCartDetails existingCartDetails = new UserCartDetails();
-        existingCartDetails.setItemQuantity(1);
-        when(userRepository.findById(userId)).thenReturn(Optional.of(userDetails));
-        when(itemRepository.findItemBySku(sku)).thenReturn(itemDetails);
-        when(userCartRepository.findByUserDetailsAndSku(any(), any())).thenReturn(Optional.of(existingCartDetails));
+	}
 
-        // Act
-        userCartService.addToCart(userId, sku, itemQuantity);
+	@Test
+	void testAddToCart_UserExist_ItemAlreadyInCart() {
+		when(userRepository.findById(1)).thenReturn(Optional.of(userDetails));
+		when(itemRepository.findItemBySku("SZ1424")).thenReturn(itemDetails);
+		when(userCartRepository.findByUserDetailsAndSku(userDetails, "SZ1424"))
+				.thenReturn(Optional.of(userCartDetails));
 
-        // Assert
-        verify(userCartRepository).save(existingCartDetails);
-        assertEquals(2, existingCartDetails.getItemQuantity());
-    }
+		userCartService.addToCart(1, "SZ1424", 11);
+		verify(userCartRepository).save(userCartDetails);
+		assertEquals(11, userCartDetails.getItemQuantity());
+	}
 
-    @Test
-    void testAddToCart_Success() {
-        // Arrange
-        int userId = 1;
-        String sku = "SKU123";
-        int itemQuantity = 1;
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUserId(userId);
-        ItemDetails itemDetails = new ItemDetails();
-        itemDetails.setSku(sku);
-        when(userRepository.findById(userId)).thenReturn(Optional.of(userDetails));
-        when(itemRepository.findItemBySku(sku)).thenReturn(itemDetails);
-        when(userCartRepository.findByUserDetailsAndSku(any(), any())).thenReturn(Optional.empty());
+	@Test
+	void testAddToCart_UserExist_ItemNotInCart() {
+		when(userRepository.findById(1)).thenReturn(Optional.of(userDetails));
+		when(itemRepository.findItemBySku("SZ1424")).thenReturn(itemDetails);
+		when(userCartRepository.findByUserDetailsAndSku(userDetails, "SZ1424")).thenReturn(Optional.empty());
 
-        // Act
-        userCartService.addToCart(userId, sku, itemQuantity);
+		userCartService.addToCart(1, "SZ1424", 7);
 
-        // Assert
-        verify(userCartRepository).save(any());
-    }
+		verify(userCartRepository).save(any(UserCartDetails.class));
+	}
 
-  
+	@Test
+	void testAddToCart_UserNotFound() {
+		when(userRepository.findById(1)).thenReturn(Optional.empty());
 
-    @Test
-    void testModifyItemQuantity_UserNotFound() {
-        // Arrange
-        int userId = 1;
-        String sku = "SKU123";
-        UserCartDetails updatedUserCartDetails = new UserCartDetails();
-        updatedUserCartDetails.setItemQuantity(2);
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> userCartService.addToCart(1, "SZ1424", 3));
 
-        // Act and Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            userCartService.modifyItemQuantity(userId, sku, updatedUserCartDetails);
-        });
-        assertEquals("User not found", exception.getMessage());
-    }
+		assertEquals("User not found", exception.getMessage());
+	}
 
-    @Test
-    void testModifyItemQuantity_ItemNotFound() {
-        // Arrange
-        int userId = 1;
-        String sku = "SKU123";
-        UserCartDetails updatedUserCartDetails = new UserCartDetails();
-        updatedUserCartDetails.setItemQuantity(2);
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUserId(userId);
-        when(userRepository.findById(userId)).thenReturn(Optional.of(userDetails));
-        when(userCartRepository.findByUserDetailsAndSku(any(), any())).thenReturn(Optional.empty());
+	@Test
+	void testAddToCart_ItemNotFound() {
 
-        // Act and Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            userCartService.modifyItemQuantity(userId, sku, updatedUserCartDetails);
-        });
-        assertEquals("Item  not found in user's cart", exception.getMessage());
-    }
+		when(userRepository.findById(1)).thenReturn(Optional.of(userDetails));
+		when(itemRepository.findItemBySku("SZ1424")).thenReturn(null);
 
-    @Test
-    void testModifyItemQuantity_Success() {
-        // Arrange
-        int userId = 1;
-        String sku = "SKU123";
-        int updatedQuantity = 2;
-        UserCartDetails updatedUserCartDetails = new UserCartDetails();
-        updatedUserCartDetails.setItemQuantity(updatedQuantity);
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUserId(userId);
-        UserCartDetails existingCartDetails = new UserCartDetails();
-        when(userRepository.findById(userId)).thenReturn(Optional.of(userDetails));
-        when(userCartRepository.findByUserDetailsAndSku(any(), any())).thenReturn(Optional.of(existingCartDetails));
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> userCartService.addToCart(1, "SZ1424", 3));
 
-        // Act
-        userCartService.modifyItemQuantity(userId, sku, updatedUserCartDetails);
+		assertEquals("Item not found!!", exception.getMessage());
+	}
 
-        // Assert
-        assertEquals(updatedQuantity, existingCartDetails.getItemQuantity());
-        verify(userCartRepository).save(existingCartDetails);
-    }
+	@Test
+	void testGetAllUserCartItems_Success() {
 
-   
-    
-    @Test
-    void testGetAllUserCartItems_Success() {
-        // Arrange
-        List<UserCartDetails> cartItems = new ArrayList<>();
-        cartItems.add(new UserCartDetails());
-        when(userCartRepository.findAll()).thenReturn(cartItems);
+		List<UserCartDetails> cartItems = List.of(userCartDetails);
 
-        // Act
-        ResponseEntity<List<UserCartDetails>> response = userCartService.getAllUserCartItems();
+		when(userCartRepository.findAll()).thenReturn(cartItems);
 
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(cartItems, response.getBody());
-    }
+		ResponseEntity<List<UserCartDetails>> response = userCartService.getAllUserCartItems();
 
-    @Test
-    void testGetAllUserCartItems_Exception() {
-        // Arrange
-        when(userCartRepository.findAll()).thenThrow(RuntimeException.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(1, response.getBody().size());
+	}
 
-        // Act
-        ResponseEntity<List<UserCartDetails>> response = userCartService.getAllUserCartItems();
+	@Test
+	void testGetAllUserCartItems_Exception() {
+		when(userCartRepository.findAll()).thenThrow(new RuntimeException("Database error"));
+		ResponseEntity<List<UserCartDetails>> response = userCartService.getAllUserCartItems();
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+		assertTrue(response.getBody().isEmpty());
+	}
 
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertTrue(response.getBody().isEmpty());
-    }
-    
-    @Test
-    void testGetUserCartItems_Success() {
-        // Arrange
-        int userId = 1;
-        List<UserCartDetails> cartItems = new ArrayList<>();
-        when(userCartRepository.findByUserDetailsUserId(userId)).thenReturn(cartItems);
+	@Test
+	void testModifyItemQuantity_Success() {
+		when(userRepository.findById(1)).thenReturn(Optional.of(userDetails));
+		when(userCartRepository.findByUserDetailsAndSku(userDetails, "SZ1424"))
+				.thenReturn(Optional.of(userCartDetails));
 
-        // Act
-        ResponseEntity<List<UserCartDetails>> response = userCartService.getUserCartItems(userId);
+		UserCartDetails updatedUserCartDetails = new UserCartDetails();
+		updatedUserCartDetails.setItemQuantity(7);
 
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(cartItems, response.getBody());
-    }
+		userCartService.modifyItemQuantity(1, "SZ1424", updatedUserCartDetails);
 
-    @Test
-    void testGetUserCartItems_Exception() {
-        // Arrange
-        int userId = 1;
-        when(userCartRepository.findByUserDetailsUserId(userId)).thenThrow(RuntimeException.class);
+		verify(userCartRepository).save(userCartDetails);
+		assertEquals(7, userCartDetails.getItemQuantity());
+	}
 
-        // Act
-        ResponseEntity<List<UserCartDetails>> response = userCartService.getUserCartItems(userId);
+	@Test
+	void testModifyItemQuantity_UserNotFound() {
+		when(userRepository.findById(1)).thenReturn(Optional.empty());
 
-        // Assert
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertTrue(response.getBody().isEmpty());
-    }
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> userCartService.modifyItemQuantity(1, "ITEM123", userCartDetails));
+
+		assertEquals("User not found", exception.getMessage());
+	}
+
+
+	@Test
+	void testModifyItemQuantity_ItemNotInCart() {
+		when(userRepository.findById(1)).thenReturn(Optional.of(userDetails));
+		when(userCartRepository.findByUserDetailsAndSku(userDetails, "ITEM123")).thenReturn(Optional.empty());
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> userCartService.modifyItemQuantity(1, "ITEM123", userCartDetails));
+
+		assertEquals("Item  not found in user's cart", exception.getMessage());
+	}
+
+	@Test
+	void testGetUserCartItems_Success() {
+		List<UserCartDetails> cartItems = List.of(userCartDetails);
+		when(userCartRepository.findByUserDetailsUserId(1)).thenReturn(cartItems);
+
+		ResponseEntity<List<UserCartDetails>> response = userCartService.getUserCartItems(1);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(1, response.getBody().size());
+
+	}
+
+	@Test
+	void testUserCartItems_Exception() {
+		when(userCartRepository.findByUserDetailsUserId(1)).thenThrow(new RuntimeException("Database error"));
+
+		ResponseEntity<List<UserCartDetails>> response = userCartService.getUserCartItems(1);
+
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().isEmpty());
+	}
+
 }
