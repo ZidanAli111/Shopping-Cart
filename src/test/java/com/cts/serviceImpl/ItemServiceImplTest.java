@@ -1,11 +1,12 @@
 package com.cts.serviceImpl;
 
-
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,78 +20,76 @@ import org.springframework.http.ResponseEntity;
 
 import com.cts.model.ItemDetails;
 import com.cts.repository.ItemRepository;
-
 @ExtendWith(MockitoExtension.class)
 public class ItemServiceImplTest {
-	@Mock
-	private ItemRepository itemRepositoryMock;
-	@InjectMocks
-	private ItemServiceImpl itemService;
 
-	@BeforeEach
-	void setUp() {
-	}
+    @InjectMocks
+    ItemServiceImpl itemService;
 
-	@Test
-	public void testGetAllItems_Success() {
-		// Arrange
-		List<ItemDetails> items = new ArrayList<>();
-		items.add(new ItemDetails());
-		items.add(new ItemDetails());
-		when(itemRepositoryMock.findAll()).thenReturn(items);
+    @Mock
+    ItemRepository itemRepository;
 
-		ResponseEntity<List<ItemDetails>> responseEntity = itemService.getAllItems();
-		// Assert
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		assertEquals(items.size(), responseEntity.getBody().size());
-	}
+    ItemDetails itemDetails;
 
-	@Test
-	public void testGetAllItems_EmptyList() {
-		// Arrange
-		when(itemRepositoryMock.findAll()).thenReturn(new ArrayList<>());
-		// Act
-		ResponseEntity<List<ItemDetails>> responseEntity = itemService.getAllItems();
-		// Assert
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		assertNotNull(responseEntity.getBody());
-		assertEquals(0, responseEntity.getBody().size());
-	}
+    @BeforeEach
+    void setup() {
+        itemDetails = new ItemDetails();
+        itemDetails.setSku("SZ1424");
+        itemDetails.setItemDescription("Sample Item");
+        itemDetails.setItemCost(100);
+    }
 
-	@Test
-	public void testGetAllItems_Exception() {
-		// Arrange
-		when(itemRepositoryMock.findAll()).thenThrow(RuntimeException.class);
-		// Act
-		ResponseEntity<List<ItemDetails>> responseEntity = itemService.getAllItems();
-		// Assert
-		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-		assertNotNull(responseEntity.getBody());
-		assertEquals(0, responseEntity.getBody().size());
-	}
+    @Test
+    void shouldReturnAllItemsWhenRepositoryReturnsData() {
+        List<ItemDetails> items = List.of(itemDetails);
+        when(itemRepository.findAll()).thenReturn(items);
 
-//	@Test
-//	public void testGetItemBySku_ItemFound() {
-//		// Arrange
-//		String sku = "SKU001";
-//		ItemDetails item = new ItemDetails();
-//		item.setSku(sku);
-//		when(itemRepositoryMock.findItemBySku(sku)).thenReturn(Optional.of(item));
-//		// Act
-//		ItemDetails result = itemService.getItemBySku(sku);
-//		// Assert
-//		assertNotNull(result);
-//		assertEquals(sku, result.getSku());
-//	}
-//
-//	@Test
-//	public void testGetItemBySku_ItemNotFound() {
-//		
-//		String sku = "NonExistingSKU";
-//		when(itemRepositoryMock.findItemBySku(sku)).thenReturn(Optional.empty());
-//		// Act
-//		ItemDetails result = itemService.getItemBySku(sku);
-//		// Assert
-//		assertEquals(null, result);
-//	}
+        ResponseEntity<List<ItemDetails>> response = itemService.getAllItems();
+
+        assertAll(
+            () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+            () -> assertEquals(1, response.getBody().size()),
+            () -> assertEquals("SZ1424", response.getBody().get(0).getSku()),
+            () -> assertEquals("Sample Item", response.getBody().get(0).getItemDescription())
+        );
+
+        verify(itemRepository, times(1)).findAll();
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenRepositoryThrowsException() {
+        when(itemRepository.findAll()).thenThrow(new RuntimeException("Database error"));
+
+        ResponseEntity<List<ItemDetails>> response = itemService.getAllItems();
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getBody().isEmpty());
+
+        verify(itemRepository, times(1)).findAll();
+    }
+
+    @Test
+    void shouldReturnItemDetailsForValidSku() {
+        when(itemRepository.findItemBySku("SZ1424")).thenReturn(itemDetails);
+
+        ItemDetails result = itemService.getItemBySku("SZ1424");
+
+        assertAll(
+            () -> assertEquals("SZ1424", result.getSku()),
+            () -> assertEquals("Sample Item", result.getItemDescription()),
+            () -> assertEquals(100, result.getItemCost())
+        );
+
+        verify(itemRepository, times(1)).findItemBySku("SZ1424");
+    }
+
+    @Test
+    void shouldReturnNullForInvalidSku() {
+        when(itemRepository.findItemBySku("INVALID")).thenReturn(null);
+
+        ItemDetails result = itemService.getItemBySku("INVALID");
+
+        assertEquals(null, result);
+        verify(itemRepository, times(1)).findItemBySku("INVALID");
+    }
 }
