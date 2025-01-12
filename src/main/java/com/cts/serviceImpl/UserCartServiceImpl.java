@@ -31,42 +31,40 @@ public class UserCartServiceImpl implements UserCartService {
 
 	@Override
 	public void addToCart(int userId, String sku, int itemQuantity) {
-	    Optional<UserDetails> userOptional = userRepository.findById(userId);
-	    ItemDetails itemDetails = itemRepository.findItemBySku(sku);
+		Optional<UserDetails> userOptional = userRepository.findById(userId);
+		ItemDetails itemDetails = itemRepository.findItemBySku(sku);
 
-	    if (userOptional.isPresent()) {
-	        UserDetails userDetails = userOptional.get();
-	        Optional<UserCartDetails> optionalUserCartDetails = userCartRepository.findByUserDetailsAndSku(userDetails, sku);
+		if (userOptional.isPresent()) {
+			UserDetails userDetails = userOptional.get();
+			Optional<UserCartDetails> optionalUserCartDetails = userCartRepository.findByUserDetailsAndSku(userDetails,
+					sku);
 
-	        if (optionalUserCartDetails.isPresent()) {
-	            // Item is already present in the cart, increment the quantity by 1
-	            UserCartDetails userCartDetails = optionalUserCartDetails.get();
-	            int updatedQuantity = userCartDetails.getItemQuantity() + 1;
-	            userCartDetails.setItemQuantity(updatedQuantity);
-	            userCartRepository.save(userCartDetails);
-	        } else {
-	            // Item not present in cart, add it with the given quantity
-	            if (itemDetails != null) {
-	                UserCartDetails newUserCartDetails = new UserCartDetails();
-	                newUserCartDetails.setUserDetails(userDetails);
-	                newUserCartDetails.setSku(sku);
-	                newUserCartDetails.setItemQuantity(itemQuantity);
-	                newUserCartDetails.setItemDescription(itemDetails.getItemDescription());
-	                newUserCartDetails.setItemCost(itemDetails.getItemCost());
-	                newUserCartDetails.setStatus('A');
-	                userCartRepository.save(newUserCartDetails);
-	            } else {
-	                throw new IllegalArgumentException("Item not found!!");
-	            }
-	        }
-	    } else {
-	        throw new IllegalArgumentException("User not found");
-	    }
+			if (optionalUserCartDetails.isPresent()) {
+				// Item is already present in the cart, increment the quantity by 1
+				UserCartDetails userCartDetails = optionalUserCartDetails.get();
+				int updatedQuantity = userCartDetails.getItemQuantity() + 1;
+				userCartDetails.setItemQuantity(updatedQuantity);
+				userCartRepository.save(userCartDetails);
+			} else {
+				// Item not present in cart, add it with the given quantity
+				if (itemDetails != null) {
+					UserCartDetails newUserCartDetails = new UserCartDetails();
+					newUserCartDetails.setUserDetails(userDetails);
+					newUserCartDetails.setSku(sku);
+					newUserCartDetails.setItemQuantity(itemQuantity);
+					newUserCartDetails.setItemDescription(itemDetails.getItemDescription());
+					newUserCartDetails.setItemCost(itemDetails.getItemCost());
+					newUserCartDetails.setStatus('A');
+					userCartRepository.save(newUserCartDetails);
+				} else {
+					throw new IllegalArgumentException("Item not found!!");
+				}
+			}
+		} else {
+			throw new IllegalArgumentException("User not found");
+		}
 	}
 
-
-	
-	
 	@Override
 	public ResponseEntity<List<UserCartDetails>> getAllUserCartItems() {
 		try {
@@ -100,16 +98,15 @@ public class UserCartServiceImpl implements UserCartService {
 		}
 
 	}
-	
-	
-	 @Override
-	    public ResponseEntity<List<UserCartDetails>> getUserCartItems(int userId) {
-	        try {
-	            List<UserCartDetails> userCartItems = userCartRepository.findByUserDetailsUserId(userId);
-	            return ResponseEntity.ok(userCartItems);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
-	        }
-	    }
+
+	@Override
+	public ResponseEntity<List<UserCartDetails>> getUserCartItems(int userId) {
+		try {
+			List<UserCartDetails> userCartItems = userCartRepository.findByUserDetailsUserId(userId);
+			return ResponseEntity.ok(userCartItems);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
+		}
+	}
 }
